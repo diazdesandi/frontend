@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    <div class="p-1">
+      <router-outlet />
+    </div>
+
+    <!-- <h1 *ngIf="!finishedAuthCheck()">Cargando</h1>
+
+<router-outlet *ngIf="finishedAuthCheck()" /> -->.
+  `,
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Scheduler App';
+
+  constructor() {
+    console.log(environment.GOOGLE_MAPS_API_KEY);
+  }
 }

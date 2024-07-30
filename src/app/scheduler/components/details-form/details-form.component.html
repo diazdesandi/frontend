@@ -1,0 +1,78 @@
+<div class="surface-card p-4 shadow-3 border-round w-full">
+  <span class="text-2xl font-medium text-center mb-4">Appointment details</span>
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="grid mt-4">
+    <ng-container *ngFor="let field of fields">
+      <div [class]="field.name === 'description' ? 'col-12' : 'col-6'">
+        <div class="flex flex-column gap-2">
+          <label [for]="field.id">
+            {{ field.label }}
+          </label>
+          <ng-container
+            *ngIf="field.name !== 'description'; else descriptionBlock"
+          >
+            <input
+              pInputText
+              [id]="field.id"
+              [type]="field.type"
+              [formControlName]="field.name"
+              [attr.aria-describedby]="field.id + '-help'"
+            />
+          </ng-container>
+          <ng-template #descriptionBlock>
+            <textarea
+              pInputTextarea
+              [autoResize]="true"
+              [id]="field.id"
+              [formControlName]="field.name"
+            ></textarea>
+          </ng-template>
+          <small [id]="field.id + '-help'" class="opacity-40">{{
+            field.helpText
+          }}</small>
+        </div>
+      </div>
+    </ng-container>
+    <p-multiSelect
+      [options]="users"
+      [(ngModel)]="selectedUsers"
+      [virtualScroll]="true"
+      [showClear]="true"
+      display="chip"
+      formControlName="invitees"
+      placeholder="Select invitees"
+      optionLabel="name"
+    >
+      <ng-template let-user pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <p-avatar
+            [image]="user.image"
+            size="normal"
+            shape="circle"
+          ></p-avatar>
+          <div>{{ user.name }}</div>
+        </div>
+      </ng-template>
+    </p-multiSelect>
+    <div class="flex grid p-5 gap-4 align-content-between">
+      <p-button
+        label="Submit"
+        icon="pi pi-check"
+        type="submit"
+        [disabled]="!appointmentForm.valid"
+      ></p-button>
+      <p-button
+        label="Reset"
+        icon="pi pi-refresh"
+        [outlined]="true"
+        (click)="onReset()"
+      ></p-button>
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [outlined]="true"
+        severity="danger"
+        (click)="onCancel()"
+      ></p-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+<p-sidebar
+  [visible]="settingsService.sidebarVisible()"
+  [modal]="false"
+  [showCloseIcon]="false"
+  styleClass="col-2"
+>
+  <ng-template pTemplate="header">
+    <div class="flex flex-column align-items-center justify-content-between">
+      <img
+        src="https://res.cloudinary.com/dl2gtzbk4/image/upload/v1715674064/default/hoe8ybs0rjtquplpbmkj.png"
+        class="border-round w-8 h-8"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-menu [items]="items"></app-menu>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <app-menu [items]="bottomItems"></app-menu>
+    <div class="flex flex-row gap-3 py-3">
+      <app-user class="w-9" [user]="user"></app-user>
+      <p-button
+        icon="pi pi-sign-out"
+        iconPos="right"
+        [text]="true"
+        severity="secondary"
+        (onClick)="logout()"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-sidebar>

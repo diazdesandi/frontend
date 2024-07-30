@@ -1,0 +1,41 @@
+<tr [pSelectableRow]="rowData" (click)="this.selectRow = this.rowData">
+  <td *ngFor="let col of columns" [ngSwitch]="col.field">
+    <ng-container *ngSwitchCase="'location'">
+      {{ rowData.location.name }}
+    </ng-container>
+    <ng-container *ngSwitchCase="'roles'">
+      <div class="flex align-items-center gap-2 flex-wrap">
+        <p-chip
+          *ngFor="let role of rowData.roles"
+          label="{{ role | titlecase }}"
+          [icon]="role === 'admin' ? 'pi pi-briefcase' : 'pi pi-user'"
+          [style]="{
+            'background-color': role === 'admin' ? '#f0ad4e' : '#5bc0de',
+            color: '#fff'
+          }"
+        ></p-chip>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchDefault> {{ rowData[col.field] }}</ng-container>
+  </td>
+
+  <td>
+    <img [src]="rowData.image" alt="{{ rowData }} image" class="h-6rem" />
+  </td>
+  <td>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-pencil"
+      class="p-button-rounded p-button-success mr-2"
+      (click)="editRow(); $event.stopPropagation() "
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-trash"
+      class="p-button-rounded p-button-warning"
+      (click)="deleteRow()"
+    ></button>
+  </td>
+</tr>

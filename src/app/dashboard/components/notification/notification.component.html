@@ -1,0 +1,61 @@
+<ul class="p-0 list-none mr-5">
+  <!-- [style.border]="getNotificationColor(notification.status)" -->
+  <li class="surface-card p-4 border-round">
+    <div class="flex">
+      <div class="col-2">
+        <p-avatar [image]="notification.user.image" size="large" shape="circle">
+        </p-avatar>
+      </div>
+      <div class="col-8">
+        <span class="text-lg font-medium mb-2">{{
+          notification.user.name
+        }}</span>
+        <p class="m-0 text-sm">
+          {{ notification.message }}
+        </p>
+      </div>
+      <div class="col-3 grid gap-1">
+        <ng-container *ngFor="let button of notificationButtons">
+          <p-button
+            *ngIf="
+              button.alwaysShow || (notification.type === 'INVITE' && isShow)
+            "
+            [icon]="button.icon"
+            [text]="true"
+            [severity]="button.severity"
+            size="small"
+            (onClick)="button.command(notification.id)"
+          ></p-button>
+        </ng-container>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<p-dialog
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{ width: '44vw' }"
+>
+  <p-header>
+    <span class="font-medium text-2xl text-900">
+      {{ selectedAppointment.title }}
+    </span>
+  </p-header>
+  <app-details
+    [appointment]="selectedAppointment"
+    [title]="false"
+    [showStatus]="true"
+  ></app-details>
+  <p-footer>
+    <ng-container *ngFor="let button of dialogButtons">
+      <p-button
+        [label]="button.label"
+        [icon]="button.icon"
+        [severity]="button.severity"
+        size="small"
+      ></p-button>
+    </ng-container>
+  </p-footer>
+</p-dialog>

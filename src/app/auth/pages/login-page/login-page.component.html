@@ -1,0 +1,60 @@
+<div class="surface-card border-round shadow-3 p-4 col-12 md:col-6">
+  <div class="flex flex-row mb-4">
+    <div class="font-medium text-2xl text-900">Login</div>
+  </div>
+  <form [formGroup]="loginForm" autocomplete="off" class="formgrid grid">
+    <ng-container *ngFor="let field of fields">
+      <div class="field col-10 md:col-6">
+        <div class="flex flex-column gap-2">
+          <ng-container *ngIf="field.name !== 'remember'">
+            <label [for]="field.id">
+              {{ field.label }}
+            </label>
+            <input
+              pInputText
+              [id]="field.id"
+              [type]="field.type"
+              [formControlName]="field.name"
+              [attr.aria-describedby]="field.id + '-help'"
+            />
+            <small [id]="field.id + '-help'" class="opacity-40">{{
+              field.helpText
+            }}</small>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  <div class="flex align-items-center justify-content-between mb-6">
+    <div class="flex align-items-center">
+      <p-checkbox
+        id="rememberme1"
+        [binary]="true"
+        styleClass="mr-2"
+      ></p-checkbox>
+      <label for="rememberme1" class="text-900">Remember me</label>
+    </div>
+    <a
+      class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
+      href="/auth/register"
+      >Forgot password?</a
+    >
+  </div>
+  <div class="flex gap-3 py-3 align-content-between">
+    <p-button
+      label="Login"
+      icon="pi pi-check"
+      severity="primary"
+      type="submit"
+      [disabled]="!loginForm.valid"
+      (onClick)="onSubmit()"
+    ></p-button>
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      [outlined]="true"
+      severity="danger"
+      [disabled]="!loginForm.valid"
+    ></p-button>
+  </div>
+</div>

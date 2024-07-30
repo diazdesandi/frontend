@@ -1,0 +1,39 @@
+<h2 class="font-medium">
+  {{ title }} ({{ appointments.length }})
+</h2>
+
+<p-listbox
+  [options]="appointments"
+  [(ngModel)]="selectedAppointment"
+  optionLabel="name"
+  [style]="{ border: 'none' }"
+>
+  <ng-template let-appointment pTemplate="item">
+    <img [src]="appointment.meetingRoom.image" class="w-8rem border-round" />
+    <div class="col-8">
+      <div class="grid">
+        <div class="col-8">
+          <p class="font-medium">{{ appointment.title }}</p>
+          <p class="text-sm no-wrap -mt-2">
+            {{ appointment.start_hour | date: "EE, d, MMMM y" }}
+          </p>
+          <p class="text-sm -mt-2">
+            {{ appointment.meetingRoom.title }}
+          </p>
+        </div>
+        <div class="col-4">
+          <p class="font-medium align-items-end">
+            {{ appointment.start_hour | date: "shortTime" }}
+          </p>
+        </div>
+      </div>
+      <p-button
+        icon="pi pi-pencil"
+        [text]="true"
+        class="mr-2"
+        (onClick)="selectAppointment(appointment)"
+      ></p-button>
+      <p-button icon="pi pi-trash" [text]="true" severity="danger"></p-button>
+    </div>
+  </ng-template>
+</p-listbox>

@@ -1,0 +1,63 @@
+<div
+  class="surface-card shadow-3 border-round flex flex-column hover:surface-300"
+>
+  <img
+    [src]="data.image"
+    [alt]="data.name"
+    class="border-round-top max-h-16rem max-w-29rem"
+  />
+  <div class="py-3">
+    <div class="px-3 grid">
+      <div class="col-10">
+        <div class="font-medium text-3xl text-900 mb-1">{{ data.name }}</div>
+        <p class="text-600 -mt-1">
+          {{ data.location.name }}
+        </p>
+      </div>
+      <div class="col-2">
+        <div class="flex align-items-center">
+          <i class="pi pi-users" style="font-size: large"></i>
+          <span class="text-2xl ml-2" pTooltip="Occupancy - Persons">{{
+            data.occupancy
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="px-3 gap-2 flex flex-column">
+      <!-- <span class="text-2xl text-700">Ammenities</span> -->
+      <span
+        class="text-700 font-light text-sm"
+        *ngIf="data.hasWhiteboard; else noWhiteboard"
+      >
+        Whiteboard available
+        <i class="pi pi-times-circle" style="color: green"></i>
+      </span>
+      <ng-template #noWhiteboard>
+        <span class="text-700 font-light text-sm">
+          Whiteboard unavailable
+          <i class="pi pi-times-circle" style="color: red"></i>
+        </span>
+      </ng-template>
+      <div class="flex align-items-center gap-3 mt-2 flex-wrap">
+        <div *ngFor="let attribute of attributes">
+          <i
+            [class]="'pi pi-' + attribute.icon"
+            style="font-size: 1.6rem"
+            [ngStyle]="{ color: attribute.value ? 'green' : '#3c4044' }"
+            pTooltip="{{ attribute.label }}"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-content-end flex-wrap">
+    <p-button
+      [link]="true"
+      label="Book"
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      class="p-3"
+      (onClick)="selectRoom(data)"
+    ></p-button>
+  </div>
+</div>

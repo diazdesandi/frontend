@@ -1,0 +1,62 @@
+<div class="surface-card border-round shadow-3 hover:surface-300">
+  <div class="px-4 py-1">
+    <h1 class="font-medium">
+      {{ data.name }}
+    </h1>
+    <div class="grid">
+      <div class="col-9">
+        <!-- <p class="text-500 text-sm -mt-1">
+          <i class="pi pi-map-marker text-green-500"></i>
+          {{ data.address }}
+        </p> -->
+        <a
+          href=""
+          class="no-underline hover:underline"
+          (mouseover)="showMap(data.address, $event, op)"
+        >
+          <p class="text-sm -mt-1">
+            <i class="pi pi-map-marker text-green-500"></i>
+            {{ data.address }}
+          </p>
+        </a>
+      </div>
+      <div class="col">
+        <p class="text-500 text-sm -mt-1">
+          {{ data.meetingRooms?.length }}
+
+          {{ data.meetingRooms?.length === 1 ? "room" : "rooms" }}
+        </p>
+      </div>
+    </div>
+    <img
+      [src]="data.image"
+      [alt]="data.name"
+      class="border-round-top h-13rem w-22rem"
+    />
+  </div>
+  <div class="flex justify-content-end flex-wrap py-2">
+    <p-button
+      [link]="true"
+      label="Book"
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      class="p-1"
+      (onClick)="selectLocation(data)"
+    ></p-button>
+  </div>
+</div>
+
+<p-overlayPanel #op [showCloseIcon]="true">
+  <ng-template pTemplate="content">
+    <p>{{ overlayText }}</p>
+
+    <google-map
+      height="200px"
+      width="360px"
+      [options]="options"
+      class="border-round"
+    >
+      <map-marker #marker="mapMarker" [options]="markerOptions" />
+    </google-map>
+  </ng-template>
+</p-overlayPanel>

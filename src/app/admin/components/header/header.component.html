@@ -1,0 +1,21 @@
+<div
+  class="flex align-items-start flex-column lg:justify-content-between lg:flex-row"
+>
+  <div>
+    <div class="font-medium text-3xl text-900">{{ data.title }}</div>
+    <div class="flex align-items-center text-700 flex-wrap mt-2">
+        <i [class]="data.icon"></i>
+        <span class="ml-2">{{ data.length }} Active {{ data.title }}</span>
+    </div>
+  </div>
+  <div class="mt-3 lg:mt-0" *ngIf="data.showButton">
+    <p-button
+      pRipple
+      label="New"
+      icon="pi pi-plus"
+      severity="primary"
+      class="px-3"
+      (click)="onButtonClick()"
+    ></p-button>
+  </div>
+</div>

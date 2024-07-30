@@ -1,0 +1,112 @@
+<div class="surface-card border-round shadow-3 p-4">
+  <div class="flex flex-row">
+    <div class="col">
+      <span class="text-2xl font-medium text-center mb-4">{{ title }}</span>
+    </div>
+    <div class="col-2">
+      <p-button
+        [text]="true"
+        icon="pi pi-pencil"
+        (onClick)="editProfile()"
+        size="small"
+      ></p-button>
+    </div>
+  </div>
+  <!-- <span class="p-text-secondary mb-5"> Update your information. </span> -->
+  <form [formGroup]="profileForm" class="formgrid grid">
+    <ng-container *ngFor="let field of fields">
+      <div
+        [ngSwitch]="field.name"
+        [class]="field.name === 'image' ? 'col-12' : 'col-6'"
+      >
+        <div class="flex flex-column p-3">
+          <label [for]="field.id" class="py-2">
+            {{ field.label }}
+          </label>
+          <ng-container *ngSwitchCase="'password'">
+            <p-password
+              [feedback]="false"
+              placeholder="Enter a new password"
+              [disabled]="!isEditing"
+            ></p-password>
+          </ng-container>
+          <ng-container *ngSwitchCase="'roles'">
+            <!-- <p-multiSelect
+              [options]="field.options"
+              placeholder="Select a role"
+              appendTo="body"
+              display="chip"
+              [formControlName]="field.name"
+              optionLabel="name"
+              optionValue="id"
+              [disabled]="!isEditing"
+            >
+            </p-multiSelect> -->
+            <div class="flex align-items-center gap-2 flex-wrap">
+              <p-chip
+                *ngFor="let role of user?.roles"
+                label="{{ role | titlecase }}"
+                [icon]="role === 'admin' ? 'pi pi-briefcase' : 'pi pi-user'"
+                [style]="{
+                  'background-color': role === 'admin' ? '#f0ad4e' : '#5bc0de',
+                  color: '#fff'
+                }"
+              ></p-chip>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'image'">
+            <div class="flex flex-row gap-5">
+              <div clas="col">
+                <p-fileUpload
+                  name="image"
+                  [multiple]="false"
+                  accept="image/*"
+                  [maxFileSize]="1000000"
+                  [invalidFileSizeMessageSummary]="'File is too large'"
+                  [showUploadButton]="false"
+                  (onSelect)="onSelect($event)"
+                >
+                </p-fileUpload>
+              </div>
+              <div class="col">
+                <img [src]="user?.image" class="h-8rem border-round" />
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <input
+              pInputText
+              [id]="field.id"
+              [type]="field.type"
+              [formControlName]="field.name"
+              [attr.aria-describedby]="field.id + '-help'"
+              [attr.disabled]="isEditing ? null : 'disabled'"
+            />
+          </ng-container>
+          <small
+            *ngIf="isEditing"
+            [id]="field.id + '-help'"
+            class="opacity-40 py-2"
+            >{{ field.helpText }}</small
+          >
+        </div>
+      </div>
+    </ng-container>
+  </form>
+  <div class="flex gap-3 py-3 align-content-between">
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      type="submit"
+      [disabled]="!isEditing"
+      (onClick)="saveProfile(this.profileForm.value)"
+    ></p-button>
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      [outlined]="true"
+      severity="danger"
+      [disabled]="!isEditing"
+    ></p-button>
+  </div>
+</div>

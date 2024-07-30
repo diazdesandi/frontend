@@ -1,0 +1,80 @@
+<div class="h-full">
+  <div class="p-3 h-full flex flex-column">
+    <div *ngIf="title" class="font-medium text-2xl text-900 mb-3">
+      {{ appointment.title }}
+    </div>
+    <div class="flex align-items-center gap-2 mb-3">
+      <i class="pi pi-user text-green-500"></i>
+      <span>{{ appointment.responsible }}</span>
+    </div>
+    <div class="text-500">
+      {{ appointment.description }}
+    </div>
+    <p-divider></p-divider>
+    <div class="flex align-items-center gap-2 mb-3">
+      <i class="pi pi-calendar text-green-500"></i>
+      <span>{{
+        appointment.start_hour | date: "EEEE dd MMMM yyyy HH:mm "
+      }}</span>
+    </div>
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-calendar text-green-500"></i>
+      <span>{{ appointment.end_hour | date: "EEEE dd MMMM yyyy HH:mm " }}</span>
+    </div>
+    <p-divider></p-divider>
+    <div class="grid mt-3">
+      <div class="col-6">
+        <ul class="list-none p-0 m-0 text-900">
+          <li class="flex align-items-center mb-3">
+            <i class="pi pi-briefcase text-green-500 mr-2"></i>
+            <span>{{ appointment.meetingRoom?.name }}</span>
+          </li>
+          <li class="flex align-items-center mb-3">
+            <i class="pi pi-building text-green-500 mr-2"></i>
+            <span>{{ appointment.meetingRoom?.location?.name }}</span>
+          </li>
+          <li class="flex align-items-center mb-3">
+            <i class="pi pi-map-marker text-green-500 mr-2"></i>
+            <span>{{ appointment.meetingRoom?.location?.address }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-6 flex">
+        <img
+          [src]="appointment.meetingRoom?.image"
+          class="h-6rem border-round"
+        />
+        <p-divider layout="vertical"></p-divider>
+        <img
+          [src]="appointment.meetingRoom?.location?.image"
+          class="h-6rem border-round"
+        />
+      </div>
+    </div>
+    <p-divider></p-divider>
+    <div class="flex align-items-center gap-2 flex-wrap mb-3">
+      <p-chip
+        *ngFor="let invitee of appointment.invited"
+        label="{{ invitee.user.name }}"
+        image="{{ invitee.user.image }}"
+        [style]="
+          showStatus
+            ? {
+                backgroundColor: getAppointmentStatusColor(invitee.status),
+                color: 'var(--gray-50)'
+              }
+            : {}
+        "
+        (mouseover)="viewProfile(invitee.user, $event, op)"
+      ></p-chip>
+    </div>
+
+    <hr class="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
+  </div>
+</div>
+
+<p-overlayPanel #op [showCloseIcon]="true">
+  <ng-template pTemplate="content">
+    <app-user [user]="userDetails" [showEmail]="true"></app-user>
+  </ng-template>
+</p-overlayPanel>

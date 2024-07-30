@@ -1,0 +1,92 @@
+<div class="surface-card shadow-3 border-round">
+  <div class="p-3 flex flex-row">
+    <h2 class="font-medium text-center">Today,</h2>
+    <h2 class="font-light">
+      {{ currentDate | date: "dd MMMM" }}
+    </h2>
+  </div>
+  <p-table [value]="hoursOfDay" [scrollable]="true" scrollHeight="800px">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="time">Time</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-hour>
+      <tr>
+        <td class="time text-right font-medium text-500">
+          {{ hour.hour }}:{{
+            hour.minute < 10 ? "0" + hour.minute : hour.minute
+          }}
+        </td>
+        <td class="p-2">
+          <ng-container
+            *ngIf="
+              getAppointmentForTime(hour) as appointment;
+              else noAppointments
+            "
+          >
+            <div class="grid p-1">
+              <div class="col">
+                <p class="text-sm no-wrap">
+                  {{ appointment.start_hour | date: "shortTime" }} -
+                  {{ appointment.end_hour | date: "shortTime" }}
+                </p>
+                <p class="text-lg font-medium -mt-2">{{ appointment.title }}</p>
+                <p class="text-sm -mt-2">
+                  {{ appointment.meetingRoom?.name }}
+                  {{ appointment.meetingRoom?.location?.name }}
+                </p>
+              </div>
+              <div class="col">
+                <img
+                  [src]="appointment.meetingRoom?.image"
+                  class="w-2rem border-round"
+                />
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noAppointments>
+            <div class="no-appointment"></div>
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<!-- <tr *ngFor="let hour of hoursOfDay">
+      <td class="time text-right font-medium text-500">
+        {{ hour.hour }}:{{ hour.minute < 10 ? "0" + hour.minute : hour.minute }}
+      </td>
+      <td class="p-2">
+        <ng-container
+          *ngIf="
+            getAppointmentForTime(hour) as appointment;
+            else noAppointments
+          "
+        >
+          <div class="grid">
+            <div class="col-8">
+              <p class="text-sm no-wrap -mt-2">
+                {{ appointment.start_hour | date: "shortTime" }} -
+                {{ appointment.end_hour | date: "shortTime" }}
+              </p>
+              <p class="font-medium -mt-2">{{ appointment.title }}</p>
+              <p class="text-sm -mt-2">
+                {{ appointment.meetingRoom?.name }}
+                {{ appointment.meetingRoom?.location?.name }}
+              </p>
+            </div>
+            <div class="col-4">
+              <img
+                [src]="appointment.meetingRoom?.image"
+                class="w-7rem border-round"
+              />
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noAppointments>
+          <div class="no-appointment"></div>
+        </ng-template>
+      </td>
+    </tr> -->

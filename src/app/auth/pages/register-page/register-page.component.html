@@ -1,0 +1,69 @@
+<div class="surface-card border-round shadow-3 p-4 col-12 md:col-6">
+  <div class="flex flex-row mb-4">
+    <div class="font-medium text-2xl text-900">Sign up</div>
+  </div>
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="signupForm"
+    autocomplete="off"
+    class="formgrid grid"
+  >
+    <ng-container *ngFor="let field of fields">
+      <div class="field col-10 md:col-6">
+        <div class="flex flex-column gap-2">
+          <ng-container *ngIf="field.name !== 'remember'; else checkboxBlock">
+            <label [for]="field.id">
+              {{ field.label }}
+            </label>
+            <input
+              pInputText
+              [id]="field.id"
+              [type]="field.type"
+              [formControlName]="field.name"
+              [attr.aria-describedby]="field.id + '-help'"
+            />
+            <small [id]="field.id + '-help'" class="opacity-40">{{
+              field.helpText
+            }}</small>
+          </ng-container>
+          <ng-template #checkboxBlock>
+            <div class="flex align-items-center gap-3">
+              <label [for]="field.id">
+                {{ field.label }}
+              </label>
+              <p-checkbox
+                [binary]="true"
+                [id]="field.id"
+                [formControlName]="field.name"
+              ></p-checkbox>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+
+  <div>
+    <a [routerLink]="['/auth/login']" class="text-900"
+      >Already have an account?</a
+    >
+  </div>
+
+  <div class="flex gap-3 py-3 align-content-between">
+    <p-button
+      label="Sign up"
+      icon="pi pi-check"
+      severity="primary"
+      type="submit"
+      [disabled]="!signupForm.valid"
+    ></p-button>
+    <p-button
+      label="Clean"
+      icon="pi pi-refresh"
+      [outlined]="true"
+      severity="warning"
+      [disabled]="!signupForm.valid"
+      (onClick)="onReset()"
+    ></p-button>
+  </div>
+</div>

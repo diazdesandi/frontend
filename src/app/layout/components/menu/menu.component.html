@@ -1,0 +1,44 @@
+<div class="overflow-y-auto">
+  <ul class="list-none p-2">
+    <ng-container *ngFor="let item of items">
+      <ng-container *ngIf="item.items; else singleItem">
+        <li>
+          <div
+            class="p-3 flex align-items-center justify-content-between text-600 cursor-pointer border-round hover:surface-200"
+            (click)="viewOptions(item)"
+          >
+            <span class="font-bold text-sm">{{ item.label }}</span
+            ><i class="pi pi-chevron-down" (click)="viewOptions(item)"></i>
+          </div>
+          <ul
+            class="list-none p-0 m-0 overflow-hidden"
+            *ngIf="selectedItem === item"
+          >
+            <li *ngFor="let subItem of item.items" class="border-round">
+              <a
+                class="p-ripple p-element flex align-items-center cursor-pointer p-3 border-round text-700 no-underline hover:surface-200"
+                [routerLink]="subItem.routerLink"
+              >
+                <i class="{{ subItem.icon }} mr-2"></i
+                ><span class="font-medium">{{ subItem.label }}</span></a
+              >
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+      <ng-template #singleItem>
+        <ul class="list-none p-0 m-0 overflow-hidden">
+          <li class="border-round">
+            <a
+              class="p-ripple p-element flex align-items-center cursor-pointer p-3 border-round text-700 no-underline hover:surface-200"
+              [routerLink]="item.routerLink"
+            >
+              <i class="{{ item.icon }} mr-2"></i
+              ><span class="font-medium">{{ item.label }}</span></a
+            >
+          </li>
+        </ul>
+      </ng-template>
+    </ng-container>
+  </ul>
+</div>

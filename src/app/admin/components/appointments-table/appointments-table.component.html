@@ -1,0 +1,160 @@
+<div class="surface-card shadow-3 border-round p-5">
+  <div class="p-5 surface-card">
+    <app-header *ngIf="header" [data]="header" />
+  </div>
+  <div class="card">
+    <p-table
+      [value]="users"
+      sortField="name"
+      sortMode="single"
+      rowGroupMode="subheader"
+      dataKey="id"
+      groupRowsBy="name"
+      [tableStyle]="{ 'min-width': '70rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of columns" style="width: 20%">
+            {{ col | titlecase }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="groupheader"
+        let-user
+        let-rowIndex="rowIndex"
+        let-expanded="expanded"
+      >
+        <tr>
+          <td colspan="9">
+            <div class="flex">
+              <button
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="user"
+                class="p-button-text p-button-rounded p-button-plain mr-2"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              ></button>
+              <div class="flex flex-column">
+                <app-user
+                  [user]="user"
+                  [showEmail]="false"
+                  [optionText]="user.appointments.length + ' Appointments'"
+                ></app-user>
+              </div>
+              <p-button
+                icon="pi pi-plus"
+                class="ml-2 mr-2"
+                size="small"
+                (click)="showDialogToAdd(user.id)"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-user>
+        <ng-container
+          *ngIf="
+            user.appointments && user.appointments.length;
+            else noAppointments
+          "
+        >
+          <tr *ngFor="let appointment of user.appointments">
+            <td>{{ appointment.title }}</td>
+            <td>{{ appointment.description }}</td>
+            <td>{{ appointment.responsible }}</td>
+            <td>
+              {{ appointment.start_hour | date: "EEEE HH:mm MMMM d y" }}
+            </td>
+            <td>{{ appointment.end_hour | date: "EEEE HH:mm MMMM d y" }}</td>
+            <td>{{ appointment.meetingRoom.name }}</td>
+            <td>{{ appointment.meetingRoom.location.name }}</td>
+            <td>{{ appointment.meetingRoom.location.address }}</td>
+            <td>
+              <p-button
+                pRipple
+                icon="pi pi-pencil"
+                [text]="true"
+                [severity]="'success'"
+                [rounded]="true"
+                (click)="showDialogToEdit(user.id, appointment)"
+              ></p-button>
+              <p-button
+                icon="pi pi-trash"
+                [text]="true"
+                [severity]="'danger'"
+                [rounded]="true"
+                class="p-button-rounded p-button-warning"
+                (click)="delete(appointment.id)"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #noAppointments>
+          <tr>
+            <td colspan="8">
+              <p-messages
+                [(value)]="messages"
+                [enableService]="false"
+                [closable]="false"
+                
+              ></p-messages>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [header]="dialog.header"
+  [(visible)]="dialog.display"
+  [modal]="true"
+  [style]="{ width: '550px', height: '650px' }"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="dialog.form">
+      <div class="grid">
+        <ng-container *ngFor="let field of fields">
+          <div [class]="field.name === 'description' ? 'col-10' : 'col-5'">
+            <div class="flex flex-column gap-2">
+              <label [for]="field.id">
+                {{ field.label }}
+              </label>
+              <ng-container
+                *ngIf="field.name !== 'description'; else descriptionBlock"
+              >
+                <input
+                  pInputText
+                  [id]="field.id"
+                  [type]="field.type"
+                  [formControlName]="field.name"
+                  [attr.aria-describedby]="field.id + '-help'"
+                />
+              </ng-container>
+              <ng-template #descriptionBlock>
+                <textarea
+                  pInputTextarea
+                  [autoResize]="true"
+                  [id]="field.id"
+                  [formControlName]="field.name"
+                ></textarea>
+              </ng-template>
+              <small [id]="field.id + '-help'" class="opacity-40">{{
+                field.helpText
+              }}</small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" (click)="hideDialog()"></button>
+    <button pButton label="Save" (click)="addUpdateData()"></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

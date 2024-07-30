@@ -1,0 +1,12 @@
+<div class="flex flex-column px-2 py-1 align-items-center">
+    <p-avatar [image]="user.image" shape="circle" size="xlarge" />
+    <span class="text-xl font-medium mb-2">{{ user.name }}</span>
+    <p class="m-0 text-sm text-600" *ngIf="showEmail; else optionTextBlock">
+      {{ user.email }}
+    </p>
+    <ng-template #optionTextBlock>
+      <p class="m-0 text-sm">
+        {{ optionText }}
+      </p>
+    </ng-template>
+</div>

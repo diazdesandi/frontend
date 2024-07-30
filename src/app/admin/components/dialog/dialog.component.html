@@ -1,0 +1,78 @@
+<p-dialog
+  [header]="header"
+  [visible]="visible"
+  [modal]="true"
+  [style]="{ width: '550px', height: '650px' }"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content" class="formgrid grid">
+    <form [formGroup]="form">
+      <div class="grid">
+        <div class="col-7">
+          <div
+            class="field"
+            *ngFor="let field of fields"
+            [ngSwitch]="field.type"
+          >
+            <label [for]="field.name">{{ field.label }}</label>
+            <ng-container *ngSwitchCase="'dropdown'">
+              <p-dropdown
+                [options]="field.options"
+                placeholder="Select a location"
+                appendTo="body"
+                [formControlName]="field.name"
+                optionLabel="name"
+                optionValue="id"
+              >
+              </p-dropdown>
+            </ng-container>
+            <ng-container *ngSwitchCase="'select'">
+              <p-multiSelect
+                [options]="field.options"
+                placeholder="Select a role"
+                appendTo="body"
+                display="chip"
+                [formControlName]="field.name"
+                optionLabel="name"
+                optionValue="id"
+              >
+              </p-multiSelect>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <input
+                pInputText
+                [id]="field.name"
+                [type]="field.type"
+                [formControlName]="field.name"
+              />
+              <small *ngIf="formValidation(field.name)">{{
+                getErrorMessage(field.name) | titlecase
+              }}</small>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-3">
+          <label [for]="image"> Image: </label>
+          <img [src]="uploadedFile" class="h-8rem" #image />
+        </div>
+      </div>
+      <div class="field">
+        <label for="image">Image</label>
+        <p-fileUpload
+          name="image"
+          [multiple]="false"
+          accept="image/*"
+          [maxFileSize]="1000000"
+          [invalidFileSizeMessageSummary]="'File is too large'"
+          [showUploadButton]="false"
+          (onSelect)="onSelect($event)"
+        >
+        </p-fileUpload>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" (click)="closeDialog()"></button>
+    <button pButton label="Save" (click)="handleData()"></button>
+  </ng-template>
+</p-dialog>
