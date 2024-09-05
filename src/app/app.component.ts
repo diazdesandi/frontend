@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { environment } from 'src/environments/environments';
+import { environment } from '../environments/environments';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,6 @@ export class AppComponent {
   title = 'Scheduler App';
 
   constructor() {
-    console.log(environment.GOOGLE_MAPS_API_KEY);
+    console.log('Google Maps Key: ' + environment.GOOGLE_MAPS_API_KEY);
   }
 }

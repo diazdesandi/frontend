@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environments';
-import { Appointment } from '../interfaces';
+import { Appointment, AppointmentResponse } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -16,31 +16,31 @@ export class AppointmentsService {
     return throwError(() => error);
   }
 
-  private urlBuilder(path?: string, id?: string) {
+  private urlBuilder(path?: string, id?: string): string {
     return `${this.baseUrl}/appointments/${path ? path + '/' : ''}${
       id ? id : ''
     }`;
   }
 
-  getAll() {
+  getAll(): Observable<Appointment[]> {
     return this.http
       .get<Appointment[]>(this.urlBuilder())
       .pipe(catchError(this.errorHandler));
   }
 
-  getByUser(id: string) {
+  getByUser(id: string): Observable<Appointment[]> {
     return this.http
       .get<Appointment[]>(this.urlBuilder('user/next', id))
       .pipe(catchError(this.errorHandler));
   }
 
-  getById(id: string) {
+  getById(id: string): Observable<Appointment> {
     return this.http
       .get<Appointment>(this.urlBuilder('', id))
       .pipe(catchError(this.errorHandler));
   }
 
-  create(appointment: Appointment) {
+  create(appointment: Appointment): Observable<AppointmentResponse> {
     return of({
       message: 'Appointment created successfully',
       ok: true,
@@ -51,7 +51,7 @@ export class AppointmentsService {
     //   .pipe(catchError(this.errorHandler));
   }
 
-  update(appointment: Appointment) {
+  update(appointment: Appointment): Observable<AppointmentResponse> {
     return of({
       message: 'Appointment created successfully',
       ok: true,
@@ -65,9 +65,21 @@ export class AppointmentsService {
     //   .pipe(catchError(this.errorHandler));
   }
 
-  delete(id: string) {
+  delete(id: string): Observable<Response> {
     return this.http
       .delete<Response>(this.urlBuilder('', id))
       .pipe(catchError(this.errorHandler));
   }
+
+  getUsage() {
+    return this.http
+      .get<UsageStats[]>(this.urlBuilder('usage'))
+      .pipe(catchError(this.errorHandler));
+  }
+}
+
+interface UsageStats {
+  'Meeting Room': string;
+  Location: string;
+  'Total Appointments': string;
 }

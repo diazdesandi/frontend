@@ -5,7 +5,7 @@ import { AppointmentsTableComponent } from './components/appointments-table/appo
 import { LocationsPageComponent } from './pages/locations-page/locations-page.component';
 import { RoomsPageComponent } from './pages/rooms-page/rooms-table.component';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
-import { StatsComponent } from './pages/stats/stats.component';
+import { StatsPageComponent } from './pages/stats-page/stats-page.component';
 
 const routes: Routes = [
   {
@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'stats',
-        component: StatsComponent,
+        component: StatsPageComponent,
       },
       {
         path: '**',

@@ -13,11 +13,6 @@ export interface Appointment {
   invited?: Person[];
 }
 
-export interface AppointmentResponse {
-  message: string;
-  ok: boolean;
-}
-
 export interface Person {
   user: SmallUser;
   status: ConfirmationStatus;

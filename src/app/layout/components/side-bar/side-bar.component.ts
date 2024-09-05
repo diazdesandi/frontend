@@ -77,6 +77,11 @@ export class SidebarComponent {
           routerLink: '/admin/users',
           icon: 'pi pi-users',
         },
+        {
+          label: 'Stats',
+          routerLink: '/admin/stats',
+          icon: 'pi pi-chart-bar',
+        },
       ],
     },
   ];
@@ -96,7 +101,7 @@ export class SidebarComponent {
 
   constructor(
     private router: Router,
-    public settingsService: SettingsService,
+    public settingsService: SettingsService
   ) {}
 
   ngOnInit() {

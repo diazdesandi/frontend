@@ -13,11 +13,6 @@ export interface User extends SmallUser {
   password?: string;
 }
 
-export interface UserResponse {
-  message: string;
-  user: User;
-}
-
 export interface UserAppointment extends User {
   appointments: Appointment[];
 }

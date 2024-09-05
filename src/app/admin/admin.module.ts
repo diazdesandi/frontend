@@ -17,7 +17,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { TableComponent } from './components/table/table.component';
 import { RowComponent } from './components/row/row.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-import { StatsComponent } from './pages/stats/stats.component';
+import { StatsPageComponent } from './pages/stats-page/stats-page.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { StatsComponent } from './pages/stats/stats.component';
     TableComponent,
     UsersPageComponent,
     DialogComponent,
-    StatsComponent,
+    StatsPageComponent,
   ],
   imports: [
     AdminRoutingModule,

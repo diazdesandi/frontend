@@ -28,8 +28,3 @@ export interface MeetingRoom extends SmallMeetingRoom {
 //   hasVideoConferencing: boolean;
 //   hasWiFi: boolean;
 // }
-
-export interface MeetingRoomResponse {
-  message: string;
-  meetingRoom: MeetingRoom;
-}

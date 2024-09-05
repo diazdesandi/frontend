@@ -12,8 +12,3 @@ export interface Location extends SmallLocation {
   department?: string;
   meetingRooms?: MeetingRoom[];
 }
-
-export interface LocationResponse {
-  message: string;
-  location: Location;
-}

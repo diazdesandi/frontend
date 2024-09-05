@@ -17,11 +17,11 @@ export class UserService {
     return throwError(() => error);
   }
 
-  private urlBuilder(path?: string, id?: string) {
+  private urlBuilder(path?: string, id?: string): string {
     return `${this.baseUrl}/users/${path ? path + '/' : ''}${id ? id : ''}`;
   }
 
-  private formDataBuilder(data: User) {
+  private formDataBuilder(data: User): FormData {
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('email', data.email);
@@ -43,7 +43,7 @@ export class UserService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getAppointmentsByUser() {
+  getAppointmentsByUser(): Observable<UserAppointment[]> {
     return this.http
       .get<UserAppointment[]>(this.urlBuilder('appointments'))
       .pipe(catchError(this.errorHandler));

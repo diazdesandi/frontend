@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.component.html',
+  selector: 'app-stats-page',
+  templateUrl: './stats-page.component.html',
 })
-export class StatsComponent {
+export class StatsPageComponent {
   basicData: any;
 
   basicOptions: any;
@@ -13,7 +13,7 @@ export class StatsComponent {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary',
+      '--text-color-secondary'
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 

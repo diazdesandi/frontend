@@ -13,7 +13,6 @@ import { SchedulerService } from '../../services/scheduler.service';
 @Component({
   selector: 'app-confirmation-page',
   templateUrl: './confirmation-page.component.html',
-  styles: [],
 })
 export class ConfirmationPageComponent {
   isLoading: boolean = false;
@@ -23,7 +22,7 @@ export class ConfirmationPageComponent {
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router,
-    private schedulerService: SchedulerService,
+    private schedulerService: SchedulerService
   ) {}
 
   // user = computed(() => this.authService.currentUser()!.id);
@@ -187,7 +186,15 @@ export class ConfirmationPageComponent {
     this.showMessage('info', 'Info', 'Appointment canceled');
   }
 
-  showMessage(severity: string, summary: string, detail: string) {
+  showMessage(severity: string, summary: string, message: string | string[]) {
+    let detail: string;
+
+    if (message.length) {
+      detail = message[0] as string;
+    } else {
+      detail = message as string;
+    }
+
     this.messageService.add({
       severity,
       summary,
